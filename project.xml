@@ -1,107 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
+
 	<app
-		title="Friday Night Funkin' - Codename Engine" main="funkin.backend.system.Main"
-		file="CodenameEngine" packageName="com.yoshman29.codenameengine"
+		title="Friday Night Funkin' - Codename Engine"
+		main="funkin.backend.system.Main"
+		file="CodenameEngine"
+		packageName="com.yoshman29.codenameengine"
 		package="com.yoshman29.codenameengine"
-		version="1.0.1" company="Yoshman29" />
+		version="1.0.1"
+		company="Yoshman29" />
 
 	<!--
-		CHANGE THE SAVE PATH & NAME FOR YOUR MOD HERE!
+		Standalone Assets Build
+
+		The engine uses the embedded assets/ directory inside the APK.
+		External mods/ and adapted external assets are disabled.
 	-->
+
+	<haxedef name="STANDALONE_ASSETS" />
+
+	<!-- __________________________ Save Settings ______________________________ -->
+
 	<haxedef name="SAVE_PATH" value="CodenameEngine"/>
 	<haxedef name="SAVE_NAME" value="save-default"/>
 
 	<haxedef name="SAVE_OPTIONS_PATH" value="CodenameEngine"/>
 	<haxedef name="SAVE_OPTIONS_NAME" value="options"/>
 
-	<!--Switch Export with Unique ApplicationID and Icon-->
+	<!-- Switch Export with Unique ApplicationID and Icon -->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
 
-	<!-- DO NOT REMOVE!! ALLOWS ME TO DO REGIONS LIKE IN C# AND KEEP CODE ORGANIZED. REMOVING IT WOULD BREAK THE ENGINE -->
+	<!--
+		DO NOT REMOVE!!
+		ALLOWS ME TO DO REGIONS LIKE IN C# AND KEEP CODE ORGANIZED.
+		REMOVING IT WOULD BREAK THE ENGINE
+	-->
 	<haxedef name="REGION" />
 
-	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
-		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
+	<!--
+		The flixel preloader is not accurate in Chrome.
+		You can use it regularly if you embed the swf into a html file
+		or you can set the actual size of your file manually at
+		"FlxPreloaderBase-onUpdate-bytesTotal"
+	-->
 	<app preloader="flixel.system.FlxPreloader" />
 
-	<!--Minimum without FLX_NO_GAMEPAD: 11.8, without FLX_NO_NATIVE_CURSOR: 11.2-->
+	<!-- Minimum without FLX_NO_GAMEPAD: 11.8, without FLX_NO_NATIVE_CURSOR: 11.2 -->
 	<set name="SWF_VERSION" value="11.8" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
-	<!--These window settings apply to all targets-->
-	<window width="1280" height="720" background="#000000" hardware="true" vsync="false" />
+	<!-- These window settings apply to all targets -->
+	<window
+		width="1280"
+		height="720"
+		background="#000000"
+		hardware="true"
+		vsync="false" />
 
-	<!--HTML5-specific-->
+	<!-- HTML5-specific -->
 	<window if="html5" resizable="true" />
 
-	<!--Desktop-specific-->
-	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
+	<!-- Desktop-specific -->
+	<window
+		if="desktop"
+		orientation="landscape"
+		fullscreen="false"
+		resizable="true"
+		vsync="false"/>
+
 	<window if="mac" allow-high-dpi="true" />
 
-	<!--Mobile-specific-->
-	<window if="mobile" orientation="landscape" fullscreen="true" resizable="false" allow-shaders="true" require-shaders="true" allow-high-dpi="true" />
+	<!-- Mobile-specific -->
+	<window
+		if="mobile"
+		orientation="landscape"
+		fullscreen="true"
+		resizable="false"
+		allow-shaders="true"
+		require-shaders="true"
+		allow-high-dpi="true" />
 
-	<!--Switch-specific-->
-	<window if="switch" orientation="landscape" fullscreen="true" width="0" height="0" resizable="true" />
+	<!-- Switch-specific -->
+	<window
+		if="switch"
+		orientation="landscape"
+		fullscreen="true"
+		width="0"
+		height="0"
+		resizable="true" />
 
 	<!-- _________________________________ Engine Settings _______________________________ -->
 
-	<!-- Comment this out to disable updates !-->
+	<!-- Comment this out to disable updates -->
 	<define name="UPDATE_CHECKING" unless="web || hl || neko || debug"/>
 
-	<!-- Comment this out to disable Discord RPC !-->
+	<!-- Comment this out to disable Discord RPC -->
 	<section if="cpp">
 		<define name="DISCORD_RPC" if="desktop"/>
 	</section>
 
-	<!-- Uncomment this to achive faster compile times, will strip extraneous and commonly unused features. -->
-	<!-- <define name="STRIPPED_COMPILE" unless="debug"/> -->
+	<!-- Uncomment this to achieve faster compile times -->
+	<!--
+	<define name="STRIPPED_COMPILE" unless="debug"/>
+	-->
 
 	<!-- Comment this out to disable modcharting features -->
 	<define name="MODCHARTING_FEATURES" unless="STRIPPED_COMPILE" />
 
-	<!-- Comment this out to disable GitHub API integration !-->
+	<!-- Comment this out to disable GitHub API integration -->
 	<define name="GITHUB_API" unless="web || hl"/>
 
-	<!-- Comment this out to prevent unused classes from being compiled.
-		 Reduces compilation time at the cost of limited HScript flexibility. !-->
+	<!--
+		Comment this out to prevent unused classes from being compiled.
+		Reduces compilation time at the cost of limited HScript flexibility.
+	-->
 	<define name="COMPILE_ALL_CLASSES" unless="STRIPPED_COMPILE" />
 
-	<!-- Comment this out to prevent extending classes in hscript.
-		 Reduces compilation time at the cost of limited HScript flexibility. !-->
+	<!--
+		Comment this out to prevent extending classes in hscript.
+		Reduces compilation time at the cost of limited HScript flexibility.
+	-->
 	<define name="CUSTOM_CLASSES" unless="STRIPPED_COMPILE" />
 
-	<!-- Comment this out to disable multithreading !-->
+	<!-- Comment this out to disable multithreading -->
 	<haxedef name="ALLOW_MULTITHREADING" unless="web || flash" />
 
-	<!-- Comment this out to disable mods folder !-->
-	<haxedef name="MOD_SUPPORT" unless="web"/>
+	<!--
+		External mod system.
 
-	<!-- Comment this out to disable translations folders !-->
+		Disabled automatically for STANDALONE_ASSETS builds.
+	-->
+	<haxedef name="MOD_SUPPORT" unless="web || STANDALONE_ASSETS"/>
+
+	<!-- Comment this out to disable translations folders -->
 	<haxedef name="TRANSLATIONS_SUPPORT"/>
 
-	<!-- Comment this out to disable global scripts !-->
+	<!-- Comment this out to disable global scripts -->
 	<haxedef name="GLOBAL_SCRIPT" />
 
-	<!-- Comment this out to disable softcoded states and state scripting !-->
+	<!-- Comment this out to disable softcoded states and state scripting -->
 	<haxedef name="SOFTCODED_STATES" />
 
-	<!-- Comment this out to disable support for custom ndlls. !-->
+	<!-- Comment this out to disable support for custom ndlls -->
 	<haxedef name="NDLLS_SUPPORTED" unless="web || iphonesim || hl" />
 
-	<!-- Comment this out to use the default OpenFL assets system for the assets/ folder. !-->
-	<define name="USE_ADAPTED_ASSETS" unless="web" />
+	<!--
+		USE_ADAPTED_ASSETS is intentionally disabled.
 
-	<!-- Comment this out to disable support for Away3D Flixel Integration (reduces compile times) !-->
+		The standalone build reads the embedded APK assets directly
+		instead of copying/reading assets from external storage.
+	-->
+
+	<!-- Comment this out to disable support for Away3D Flixel Integration -->
 	<define name="THREE_D_SUPPORT" unless="STRIPPED_COMPILE" />
 
-	<!-- Comment this out to disable support for Nape integration (flixel.addons.nape) (reduces compile times) !-->
+	<!-- Comment this out to disable support for Nape integration -->
 	<define name="NAPE_ENABLED" unless="STRIPPED_COMPILE" />
 
-	<!-- Comment this out to disable video cutscene support, in case of compilation errors. !-->
+	<!-- Comment this out to disable video cutscene support -->
 	<section if="cpp">
 		<define name="VIDEO_CUTSCENES" if="desktop || mobile" />
 	</section>
@@ -150,29 +208,63 @@
 
 	<source name="source" />
 
+	<!--
+		Embedded APK assets.
+
+		This is the main asset source for the standalone build.
+	-->
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
 
-	<library name="assets"    preload="true"  if="PRELOAD_ALL"/>
-	<library name="assets"    preload="false" if="NO_PRELOAD_ALL" />
+	<library name="assets" preload="true" if="PRELOAD_ALL"/>
+	<library name="assets" preload="false" if="NO_PRELOAD_ALL" />
+
+	<!-- __________________________ Embedded Assets _____________________________ -->
 
 	<section unless="TEST_BUILD">
-		<assets path="assets/"    rename="assets"	exclude="*.ogg" if="web"/>
-		<assets path="assets/"    rename="assets"	exclude="*.mp3" unless="web"/>
 
-		<!-- TODO: make it copy this manually, instead of using assets node, so it doesn't manually check for fonts -->
-		<assets path='mods' rename='mods' embed='false' />
+		<!-- Web -->
+		<assets
+			path="assets/"
+			rename="assets"
+			exclude="*.ogg"
+			if="web"/>
+
+		<!-- Android / Desktop / Other native targets -->
+		<assets
+			path="assets/"
+			rename="assets"
+			exclude="*.mp3"
+			unless="web"/>
+
 	</section>
 
-	<assets path='art/readme.txt' rename='do NOT readme.txt' unless="mobile" />
+	<!--
+		IMPORTANT:
 
-	<!-- ______________________________ Haxedefines _____________________________ -->
+		There is intentionally NO:
+			<assets path='mods' ... />
 
-	<haxeflag name="--macro" value="funkin.backend.system.macros.BuildInfo.printBuildInfo()" />
+		The standalone build does not package an external mods directory.
+	-->
+
+	<assets
+		path="art/readme.txt"
+		rename="do NOT readme.txt"
+		unless="mobile" />
+
+	<!-- _________________________________ Haxedefines _____________________________ -->
+
+	<haxeflag
+		name="--macro"
+		value="funkin.backend.system.macros.BuildInfo.printBuildInfo()" />
 
 	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />
 
-	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
+	<!--
+		Disable the Flixel core debugger.
+		Automatically gets set whenever you compile in release mode!
+	-->
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
 
 	<haxedef name="analyzer-optimize" unless="debug" />
@@ -182,7 +274,12 @@
 	<haxedef name="DISCORD_RPC" if="DISCORD_RPC" />
 	<haxedef name="SHOW_BUILD_ON_FPS" if="SHOW_BUILD_ON_FPS" />
 	<haxedef name="SOFTCODED_CLASSES" if="SOFTCODED_CLASSES" />
-	<haxedef name="USE_ADAPTED_ASSETS" if="USE_ADAPTED_ASSETS" />
+
+	<!--
+		USE_ADAPTED_ASSETS intentionally omitted.
+		Standalone uses embedded assets only.
+	-->
+
 	<haxedef name="openfl_dpi_aware" if="openfl_dpi_aware" />
 
 	<!-- Disable it for more concise compilation errors. -->
@@ -190,38 +287,54 @@
 
 	<!-- _________________________________ Custom _______________________________ -->
 
-	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
-	<icon path="art/icon16.png" size='16'/>
-	<icon path="art/icon32.png" size='24'/>
-	<icon path="art/icon32.png" size='32'/>
-	<icon path="art/icon64.png" size='40'/>
-	<icon path="art/icon64.png" size='48'/>
-	<icon path="art/icon64.png" size='64'/>
-	<icon path="art/iconOG.png" size='96' />
-	<icon path="art/iconOG.png" size='128' />
-	<icon path="art/iconOG.png" size='196' />
-	<icon path="art/iconOG.png" size='256' />
-	<icon path="art/iconOG.png" size='512' />
-	<icon path="art/iconOG.png" size='768' />
-	<icon path="art/iconOG.png" size='1024' />
+	<!--
+		Place custom nodes like icons here
+		(higher priority to override the HaxeFlixel icon)
+	-->
+
+	<icon path="art/icon16.png" size="16"/>
+	<icon path="art/icon32.png" size="24"/>
+	<icon path="art/icon32.png" size="32"/>
+	<icon path="art/icon64.png" size="40"/>
+	<icon path="art/icon64.png" size="48"/>
+	<icon path="art/icon64.png" size="64"/>
+	<icon path="art/iconOG.png" size="96" />
+	<icon path="art/iconOG.png" size="128" />
+	<icon path="art/iconOG.png" size="196" />
+	<icon path="art/iconOG.png" size="256" />
+	<icon path="art/iconOG.png" size="512" />
+	<icon path="art/iconOG.png" size="768" />
+	<icon path="art/iconOG.png" size="1024" />
 	<icon path="art/iconOG.png" if="mobile" />
 
 	<!-- _________________________________ Additional stuff _______________________________ -->
 
 	<section if="MODCHARTING_FEATURES">
+
 		<haxedef name="FM_ENGINE" value="CODENAME"/>
 		<haxedef name="FM_ENGINE_VERSION" value="1.0"/>
 
 		<haxelib name="funkin-modchart" />
-		<haxeflag name="--macro" value="modchart.backend.macros.Macro.includeFiles()"/>
+
+		<haxeflag
+			name="--macro"
+			value="modchart.backend.macros.Macro.includeFiles()"/>
+
 	</section>
 
 	<section if="COMPILE_ALL_CLASSES">
+
 		<haxeflag name="-dce" value="no" />
-		<haxeflag name="--macro" value="funkin.backend.system.macros.Macros.addAdditionalClasses()" />
+
+		<haxeflag
+			name="--macro"
+			value="funkin.backend.system.macros.Macros.addAdditionalClasses()" />
+
 	</section>
 
-	<haxeflag name="--macro" value="funkin.backend.system.macros.Macros.initMacros()" />
+	<haxeflag
+		name="--macro"
+		value="funkin.backend.system.macros.Macros.initMacros()" />
 
 	<!-- Fix compiling issues -->
 	<setenv name="HAXEPATH" value="./"/>
@@ -232,19 +345,27 @@
 	<haxedef name="HXCPP_STACK_LINE" />
 	<haxedef name="HXCPP_CATCH_SEGV" />
 
-	<haxedef name="hscriptPos" /> <!-- for logging -->
+	<haxedef name="hscriptPos" />
 
-	<!-- EXPERMENTAL FEATURES -->
+	<!-- _________________________________ Experimental Features _______________________________ -->
+
 	<haxedef name="EXPERIMENTAL_FLXGRAPHIC_DESTROY_FIX" />
 
 	<!-- _________________________________ Mobile stuff _______________________________ -->
 
 	<!-- Do whatever you want I'm tired uninstall and install everytime -->
-	<certificate path="key.keystore" password="codenameengine" alias="cneport" alias-password="codenameengine" if="android" unless="debug" />
+	<certificate
+		path="key.keystore"
+		password="codenameengine"
+		alias="cneport"
+		alias-password="codenameengine"
+		if="android"
+		unless="debug" />
 
 	<haxedef name="SHARE_MOBILE_FILES" if="mobile" />
 
 	<!-- Category Type for Apple Systems -->
 	<config:ios category_type="public.app-category.music-games" />
 	<config:mac category_type="public.app-category.music-games" />
+
 </project>
